@@ -15,8 +15,8 @@ jobs:
     - name: run the git diff action
       uses: technote-space/get-diff-action@v4
       with:
-        PATTERNS:
-          +(src/**)
+        PATTERNS: |
+          src/**
     - name: output 
       run: echo ${{env.GIT_DIFF}}
       if: env.GIT_DIFF
