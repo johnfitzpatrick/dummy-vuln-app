@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: run the checkout action
+      uses: actions/checkout@v1
+
+    - name: run the git diff action
+      uses: technote-space/get-diff-action@v4
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
