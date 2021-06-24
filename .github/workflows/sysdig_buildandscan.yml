@@ -14,7 +14,9 @@ jobs:
 
     - name: run the git diff action
       uses: technote-space/get-diff-action@v4
-
+      with:
+        PATTERNS:
+          +(src)
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
 
