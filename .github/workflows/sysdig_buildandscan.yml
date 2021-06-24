@@ -17,6 +17,9 @@ jobs:
       with:
         PATTERNS:
           +(src/**)
+        if: env.GIT_DIFF
+        run: echo ${{env.GIT_DIFF}}
+
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
 
