@@ -15,11 +15,10 @@ jobs:
     - name: run the git diff action
       uses: technote-space/get-diff-action@v4
       with:
-        PATTERNS: |
-          src/**
-    - name: output 
-      run: echo ${{env.GIT_DIFF}}
-      if: env.GIT_DIFF
+        PATTERNS: +(src/**)
+        FORMAT: json
+      - run: echo '${{ env.GIT_DIFF }}' | jq .
+      # if: jobs.get_git_diff.steps.get_git_diff.env.GIT_DIFF
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
