@@ -10,4 +10,4 @@ test five
 
 test
 
-test :(
+test :)
