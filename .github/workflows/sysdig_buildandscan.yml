@@ -1,6 +1,6 @@
 name: Sysdig - Build, scan and push Docker Image
 
-on: [push, repository_dispatch]
+on: [ pull_request, push ]
 
 jobs:
 
@@ -10,7 +10,9 @@ jobs:
 
     steps:
     # - name: run the checkout action
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     # - name: run the git diff action
     - uses: technote-space/get-diff-action@v4
       with:
