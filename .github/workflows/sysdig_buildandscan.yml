@@ -18,7 +18,8 @@ jobs:
         PATTERNS: |
             +(src/**)
         FORMAT: json
-      run: echo '${{ env.GIT_DIFF }}' | jq .
+    - name: output
+    - run: echo '${{ env.GIT_DIFF }}' | jq .
       # if: jobs.get_git_diff.steps.get_git_diff.env.GIT_DIFF
 
     - name: Build the Docker image
