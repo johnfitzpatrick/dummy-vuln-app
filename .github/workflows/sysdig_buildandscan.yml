@@ -21,7 +21,7 @@ jobs:
     # - run: echo '${{ env.GIT_DIFF_CONTENT }}'
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
+      run: docker build . --file ./src/something/Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
 
     # - name: Sysdig Secure Inline Scan
     #   id: scan
