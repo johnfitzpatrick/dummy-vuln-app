@@ -35,14 +35,13 @@ jobs:
     - uses: technote-space/get-diff-action@v4.1.1
       id: git_diff_content
       with:
-        PATTERNS: src/**
+        PATTERNS: src/**/*.txt
         SET_ENV_NAME: GIT_DIFF_CONTENT
-        FORMAT: json
-    - run: echo '${{ env.GIT_DIFF_CONTENT }}' | jq .
+    - run: echo '${{ env.GIT_DIFF_CONTENT }}'
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
-      if: env.GIT_DIFF_CONTENT
+      if: ${{ env.GIT_DIFF_CONTENT }}
 
     # - name: Sysdig Secure Inline Scan
     #   id: scan
