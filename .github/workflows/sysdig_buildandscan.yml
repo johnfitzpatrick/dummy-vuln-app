@@ -5,26 +5,44 @@ on: [ pull_request, push ]
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    # - name: run the checkout action
     - uses: actions/checkout@v2
+      # with:
+      #   fetch-depth: 0
+
+    - name: Config git core.quotePath
+      run: |
+        # If you don't do this, the get-diff-action won't be able to
+        # notice files that contain non-ascii characters.
+        # I.e.
+        #
+        #    ▶ git status
+        #    Changes not staged for commit:
+        #    ...
+        #   modified:   "files/en-us/glossary/b\303\251zier_curve/index.html"
+        #
+        # But after you set `core.quotePath` you get:
+        #
+        #    ▶ git status
+        #    Changes not staged for commit:
+        #    ...
+        #   modified:   "files/en-us/glossary/bézier_curve/index.html"
+        #
+        # Now, this gets used by the `git diff ...` inside get-diff-action.
+        git config --global core.quotePath false
+
+    - uses: technote-space/get-diff-action@v4.1.1
+      id: git_diff_content
       with:
-        fetch-depth: 0
-    # - name: run the git diff action
-    - uses: technote-space/get-diff-action@v4
-      with:
-        PATTERNS: |
-          src/**
-          !.github/**
+        PATTERNS: src/**
+        SET_ENV_NAME: GIT_DIFF_CONTENT
         FORMAT: json
-    - run: echo '${{ env.GIT_DIFF }}' | jq .
-      # if: jobs.get_git_diff.steps.get_git_diff.env.GIT_DIFF
+    - run: echo '${{ env.GIT_DIFF_CONTENT }}' | jq .
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
+      if: jobs.get_git_diff.steps.get_git_diff.env.GIT_DIFF_CONTENT
 
     # - name: Sysdig Secure Inline Scan
     #   id: scan
