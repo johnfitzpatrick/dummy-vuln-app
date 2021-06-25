@@ -9,16 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: run the checkout action
-      uses: actions/checkout@v1
+    # - name: run the checkout action
+    - uses: actions/checkout@v1
 
-    - name: run the git diff action
-      uses: technote-space/get-diff-action@v4
+    # - name: run the git diff action
+    - uses: technote-space/get-diff-action@v4
       with:
         PATTERNS: |
-            +(src/**)
+          +(src/**/)
         FORMAT: json
-    - name: output
     - run: echo '${{ env.GIT_DIFF }}' | jq .
       # if: jobs.get_git_diff.steps.get_git_diff.env.GIT_DIFF
 
