@@ -22,7 +22,6 @@ jobs:
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag sysdiglabs/dummy-vuln-app:latest
-      if: ${{ env.GIT_DIFF_CONTENT }}
 
     # - name: Sysdig Secure Inline Scan
     #   id: scan
